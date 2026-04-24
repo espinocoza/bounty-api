@@ -114,7 +114,9 @@ npm run test
 Watch mode:
 ```bash
 npm run test:watch
+
 ```
+<img width="1115" height="628" alt="image" src="https://github.com/user-attachments/assets/d5867408-6c0d-4ab6-abef-45ccf5451d30" />
 
 **Response: 200 OK**
 ```json
