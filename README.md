@@ -1,302 +1,119 @@
-# 🏴‍☠️ BOUNTY API - Sistema de Gestión de Recompensas del Nuevo Mundo
+# Bounty API
 
-> *"La recompensa del Capitán Pirata es la cifra más importante en todo el Grand Line"* ⚓
+Proyecto de API REST con NestJS y MongoDB. Sistema para gestionar piratas y carteles de búsqueda.
 
----
+## Descripcion
 
-## 📖 TABLA DE CONTENIDOS
+API backend para administrar una base de datos de piratas con sus respectivos carteles de búsqueda (bounties). Cada pirata tiene nombre, tripulacion y atributos especiales. Los carteles contienen el ID del pirata, la cantidad de recompensa y el estado (Wanted o Captured).
 
-1. [Descripción General](#descripción-general)
-2. [Características Principales](#características-principales)
-3. [Arquitectura Técnica](#arquitectura-técnica)
-4. [Instalación y Setup](#instalación-y-setup)
-5. [Variables de Entorno](#variables-de-entorno)
-6. [Uso de la API](#uso-de-la-api)
-7. [Protocolos de la Marina: Seguridad de DTOs](#protocolos-de-la-marina-seguridad-de-dtos)
-8. [Ejecutar Tests](#ejecutar-tests)
-9. [Estructura de Carpetas](#estructura-de-carpetas)
+## Caracteristicas
 
----
+La API tiene dos modulos principales:
 
-## 📋 DESCRIPCIÓN GENERAL
+**Piratas:**
+- POST /pirates - crear pirata
+- GET /pirates - listar todos
+- GET /pirates/:id - obtener uno
+- PATCH /pirates/:id - actualizar
+- DELETE /pirates/:id - eliminar
 
-**Bounty API** es un sistema backend escalable construido con **NestJS** y **MongoDB Atlas** para gestionar piratas y sus carteles de búsqueda (bounties) en el Nuevo Mundo.
+Campos del pirata: nombre, tripulacion, tieneFrutaDelDiablo (boolean)
 
-### Contexto One Piece 🌍
+**Carteles (Bounties):**
+- POST /bounties - crear cartel
+- GET /bounties - listar
+- GET /bounties/:id - obtener uno
+- GET /bounties/active - solo los Wanted
+- PATCH /bounties/:id - actualizar
+- DELETE /bounties/:id - eliminar
 
-La Marina del Nuevo Mundo necesitaba un sistema robusto para:
-- ✅ Registrar piratas en la base de datos del **Cipher Pol** (CP9)
-- ✅ Emitir carteles de búsqueda (bounties) con recompensas en Bellys
-- ✅ Rastrear el estado de cada pirata (Wanted vs Captured)
-- ✅ Mantener integridad de datos ante intentos de infiltración
+Campos del cartel: pirata (referencia), cantidadBellys (recompensa), estado (Wanted/Captured)
 
-**Bounty API** es la solución oficial de la Marina.
+## Tecnologia
 
----
+- NestJS (framework backend Node.js)
+- TypeScript
+- MongoDB con Mongoose
+- Validacion con class-validator
+- Jest para tests
 
-## 🎯 CARACTERÍSTICAS PRINCIPALES
+## Como instalar
 
-### 🏴 Módulo de Piratas
+1. Clonar o descargar el proyecto
+2. Instalar dependencias: `npm install`
+3. Crear archivo `.env` con las variables (ver abajo)
+4. Compilar: `npm run build`
+5. Ejecutar: `npm run start:dev`
+
+El servidor va a correr en `http://localhost:3000`
+
+## Variables de entorno
+
+Crear archivo `.env`:
+
 ```
-POST   /pirates                    Registrar nuevo pirata
-GET    /pirates                    Listar todos los registros
-GET    /pirates/:id                Obtener pirata específico
-PATCH  /pirates/:id                Actualizar datos del pirata
-DELETE /pirates/:id                Eliminar del registro marino
-```
-
-**Campos principales:**
-- `nombre` (único, obligatorio) - Nombre registrado en la Marina
-- `tripulacion` (obligatorio) - Crew a la que pertenece
-- `tieneFrutaDelDiablo` (boolean, default: false) - Atributo sobrenatural
-
----
-
-### 🎯 Módulo de Carteles de Búsqueda
-```
-POST   /bounties                   Emitir nuevo cartel de búsqueda
-GET    /bounties                   Listar todos con datos del pirata
-GET    /bounties/:id               Obtener cartel específico
-GET    /bounties/active            🌟 ESPECIAL: Solo carteles Wanted (activos)
-PATCH  /bounties/:id               Actualizar estado/recompensa
-DELETE /bounties/:id               Eliminar cartel
-```
-
-**Campos principales:**
-- `pirata` (ObjectId, referencia a Pirate)
-- `cantidadBellys` (número positivo) - Recompensa en moneda del Nuevo Mundo
-- `estado` (enum: 'Wanted' | 'Captured')
-
----
-
-## 🏗️ ARQUITECTURA TÉCNICA
-
-### Tech Stack
-```
-Backend Framework:     NestJS
-Language:             TypeScript
-Database:             MongoDB Atlas (Cloud)
-ORM:                  Mongoose
-Validation:           class-validator
-Testing:              Jest + @nestjs/testing
-Security:             ValidationPipe (whitelist + forbidNonWhitelisted)
-```
-
-### Diagrama de Capas
-```
-┌─────────────────────────────────────────┐
-│    Controllers                          │  ← API REST Endpoints
-├─────────────────────────────────────────┤
-│    Services (Business Logic)            │  ← Lógica de negocio
-├─────────────────────────────────────────┤
-│    DTOs (Data Validation)               │  ← Validación de entrada
-├─────────────────────────────────────────┤
-│    Schemas (Database Models)            │  ← Modelos MongoDB
-├─────────────────────────────────────────┤
-│    MongoDB Atlas                        │  ← Base de datos Cloud
-└─────────────────────────────────────────┘
-```
-
----
-
-## 🚀 INSTALACIÓN Y SETUP
-
-### Requisitos Previos
-```bash
-Node.js >= 18.x
-npm o yarn
-MongoDB Atlas (cuenta gratuita disponible)
-```
-
-### Paso 1: Clonar/Descargar Proyecto
-```bash
-cd bounty-api
-```
-
-### Paso 2: Instalar Dependencias
-```bash
-npm install
-
-# O con yarn
-yarn install
-```
-
-### Paso 3: Configurar Variables de Entorno
-Crear archivo `.env` en la raíz del proyecto (ver sección siguiente)
-
-### Paso 4: Compilar Proyecto
-```bash
-npm run build
-```
-
-### Paso 5: Ejecutar en Desarrollo
-```bash
-npm run start:dev
-
-# Servidor ejecutándose en http://localhost:3000
-```
-
----
-
-## 🔐 VARIABLES DE ENTORNO
-
-Crear archivo `.env` en la raíz del proyecto:
-
-```bash
-# ========================================
-# CONFIGURACIÓN DE BASE DE DATOS
-# ========================================
-
-# URI de conexión a MongoDB Atlas
-# Formato: mongodb+srv://usuario:contraseña@cluster.mongodb.net/nombreBD
-MONGO_URI=mongodb+srv://usuario:contraseña@cluster0.abcde.mongodb.net/bounty-db
-
-# ========================================
-# CONFIGURACIÓN DE SERVIDOR
-# ========================================
-
-# Puerto del servidor NestJS (default: 3000)
+MONGO_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/bounty-api
 PORT=3000
-
-# Ambiente de ejecución (development, production, testing)
 NODE_ENV=development
-
-# ========================================
-# CONFIGURACIÓN LOG
-# ========================================
-
-# Nivel de logging (debug, log, warn, error, verbose)
-LOG_LEVEL=debug
 ```
 
-### 📌 Cómo Obtener MONGO_URI
+Para MongoDB Atlas:
+1. Crear cuenta en https://www.mongodb.com/cloud/atlas
+2. Crear un cluster gratuito
+3. Copiar la connection string
+4. Reemplazar usuario y contraseña
 
-1. **Crear Cuenta en MongoDB Atlas:**
-   - Ir a https://www.mongodb.com/cloud/atlas
-   - Crear cuenta gratuita
-   - Crear cluster (tier gratuito disponible)
+## Como usar la API
 
-2. **Generar Conexión:**
-   - En Atlas: Cluster → Connect → Connect your application
-   - Seleccionar Node.js driver
-   - Copiar connection string
-   - Reemplazar `<password>` con contraseña del usuario
-   - Reemplazar `myFirstDatabase` con nombre de base de datos
+Ejemplos basicos:
 
-3. **Ejemplo Final:**
-   ```bash
-   MONGO_URI=mongodb+srv://capitanpirata:buccaneer123@bounty-cluster.a1b2c.mongodb.net/bounty-db
-   ```
-
-### ⚠️ Seguridad: Nunca Commitear `.env`
+**Crear pirata:**
 ```bash
-# Agregar a .gitignore
-echo ".env" >> .gitignore
-echo ".env.local" >> .gitignore
-echo ".env.*.local" >> .gitignore
+curl -X POST http://localhost:3000/pirates \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Zoro","tripulacion":"Straw Hat","tieneFrutaDelDiablo":false}'
 ```
 
----
-
-## 🗺️ USO DE LA API
-
-### 1️⃣ Crear Pirata (POST /pirates)
-
-**Request:**
-```json
-POST http://localhost:3000/pirates
-Content-Type: application/json
-
-{
-  "nombre": "Roronoa Zoro",
-  "tripulacion": "Straw Hat Pirates",
-  "tieneFrutaDelDiablo": false
-}
+**Listar piratas:**
+```bash
+curl http://localhost:3000/pirates
 ```
 
-**Response: 201 Created**
-```json
-{
-  "_id": "507f1f77bcf86cd799439011",
-  "nombre": "Roronoa Zoro",
-  "tripulacion": "Straw Hat Pirates",
-  "tieneFrutaDelDiablo": false,
-  "createdAt": "2026-04-23T10:00:00.000Z",
-  "updatedAt": "2026-04-23T10:00:00.000Z"
-}
+**Crear cartel:**
+```bash
+curl -X POST http://localhost:3000/bounties \
+  -H "Content-Type: application/json" \
+  -d '{"pirata":"ID_DEL_PIRATA","cantidadBellys":320000000,"estado":"Wanted"}'
 ```
 
----
-
-### 2️⃣ Crear Cartel de Búsqueda (POST /bounties)
-
-**Request:**
-```json
-POST http://localhost:3000/bounties
-Content-Type: application/json
-
-{
-  "pirata": "507f1f77bcf86cd799439011",
-  "cantidadBellys": 320000000,
-  "estado": "Wanted"
-}
+**Ver carteles activos:**
+```bash
+curl http://localhost:3000/bounties/active
 ```
 
-**Response: 201 Created**
-```json
-{
-  "_id": "507f1f77bcf86cd799439012",
-  "pirata": {
-    "_id": "507f1f77bcf86cd799439011",
-    "nombre": "Roronoa Zoro",
-    "tripulacion": "Straw Hat Pirates",
-    "tieneFrutaDelDiablo": false
-  },
-  "cantidadBellys": 320000000,
-  "estado": "Wanted",
-  "createdAt": "2026-04-23T10:30:00.000Z",
-  "updatedAt": "2026-04-23T10:30:00.000Z"
-}
+## Estructura
+
+```
+src/
+  controllers/    - endpoints de la API
+  services/       - logica de negocio
+  dtos/           - validacion de datos
+  schemas/        - modelos de MongoDB
+  bounties/       - modulo de carteles
+  pirates/        - modulo de piratas
+  main.ts         - entrada de la app
 ```
 
----
+## Tests
 
-### 3️⃣ Obtener Carteles Activos (GET /bounties/active)
-
-**Request:**
-```
-GET http://localhost:3000/bounties/active
+Ejecutar tests:
+```bash
+npm run test
 ```
 
-**Response: 200 OK**
-```json
-[
-  {
-    "_id": "507f1f77bcf86cd799439012",
-    "pirata": {
-      "_id": "507f1f77bcf86cd799439011",
-      "nombre": "Roronoa Zoro",
-      "tripulacion": "Straw Hat Pirates"
-    },
-    "cantidadBellys": 320000000,
-    "estado": "Wanted"
-  }
-]
-```
-
----
-
-### 4️⃣ Actualizar Cartel (PATCH /bounties/:id)
-
-**Request:**
-```json
-PATCH http://localhost:3000/bounties/507f1f77bcf86cd799439012
-Content-Type: application/json
-
-{
-  "estado": "Captured",
-  "cantidadBellys": 500000000
-}
+Watch mode:
+```bash
+npm run test:watch
 ```
 
 **Response: 200 OK**
