@@ -368,43 +368,6 @@ bounty-api/
 
 ---
 
-## 💡 TIPS PROFESIONALES
-
-### 1. Usar `.env.example` para Documentar Variables
-```bash
-# .env.example (sin valores secretos)
-MONGO_URI=mongodb+srv://usuario:pass@cluster.mongodb.net/db
-PORT=3000
-NODE_ENV=development
-```
-
-### 2. Logs en Desarrollo
-```typescript
-// En servicios, usar Logger de NestJS
-import { Logger } from '@nestjs/common';
-
-@Injectable()
-export class BountiesService {
-  private readonly logger = new Logger(BountiesService.name);
-
-  async findOne(id: string) {
-    this.logger.log(`Buscando cartel con ID: ${id}`);
-    // ...
-  }
-}
-```
-
-### 3. Manejo de Errores Consistente
-```typescript
-// Todos los errores usan NotFoundException, BadRequestException, etc.
-// NestJS los convierte a respuestas HTTP apropiadas automáticamente
-if (!bounty) {
-  throw new NotFoundException('Cartel no encontrado');
-}
-```
-
----
-
 ## 🏴‍☠️ CONCLUSIÓN
 
 **Bounty API** implementa:
@@ -428,7 +391,7 @@ Para preguntas técnicas, consulta:
 
 ---
 
-**Creado por:** Arquitecto Senior de NestJS  
+**Creado por:** Coza
 **Versión:** 1.0.0  
 **Última actualización:** 23 abril 2026  
 **Estado:** 🟢 Operacional para Producción
