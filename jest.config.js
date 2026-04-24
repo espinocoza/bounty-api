@@ -5,12 +5,12 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
-  collectCoverageFrom": [
+  collectCoverageFrom: [
     '**/*.(t|j)s',
   ],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
-  moduleNameMapper": {
+  moduleNameMapper: {
     '^@src/(.*)$': '<rootDir>/$1',
     '^@schemas/(.*)$': '<rootDir>/schemas/$1',
     '^@dtos/(.*)$': '<rootDir>/dtos/$1',
