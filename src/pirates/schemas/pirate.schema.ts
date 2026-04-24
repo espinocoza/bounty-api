@@ -32,6 +32,5 @@ export class Pirate extends Document {
 
 export const PirateSchema = SchemaFactory.createForClass(Pirate);
 
-PirateSchema.index({ nombre: 1 });
 PirateSchema.index({ tripulacion: 1 });
 

@@ -21,12 +21,11 @@ describe('PiratesService', () => {
   };
 
   beforeEach(async () => {
-    mockPirateModel = {
-      find: jest.fn(),
-      findById: jest.fn(),
-      findByIdAndUpdate: jest.fn(),
-      findByIdAndDelete: jest.fn(),
-    };
+    mockPirateModel = jest.fn();
+    mockPirateModel.find = jest.fn();
+    mockPirateModel.findById = jest.fn();
+    mockPirateModel.findByIdAndUpdate = jest.fn();
+    mockPirateModel.findByIdAndDelete = jest.fn();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [

@@ -41,16 +41,14 @@ describe('BountiesService', () => {
   };
 
   beforeEach(async () => {
-    mockBountyModel = {
-      find: jest.fn(),
-      findById: jest.fn(),
-      findByIdAndUpdate: jest.fn(),
-      findByIdAndDelete: jest.fn(),
-    };
+    mockBountyModel = jest.fn();
+    mockBountyModel.find = jest.fn();
+    mockBountyModel.findById = jest.fn();
+    mockBountyModel.findByIdAndUpdate = jest.fn();
+    mockBountyModel.findByIdAndDelete = jest.fn();
 
-    mockPirateModel = {
-      findById: jest.fn(),
-    };
+    mockPirateModel = jest.fn();
+    mockPirateModel.findById = jest.fn();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
