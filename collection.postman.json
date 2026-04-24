@@ -1,0 +1,286 @@
+{
+  "info": {
+    "name": "🏴‍☠️ Bounty API - Sistema de Recompensas del Nuevo Mundo",
+    "description": "Colección completa de endpoints de la Bounty API con ejemplos de uso siguiendo Protocolos de la Marina",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "🏥 Health & Info",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Verifica que la aplicación está corriendo"
+          },
+          "response": []
+        },
+        {
+          "name": "Application Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/info",
+              "host": ["{{baseUrl}}"],
+              "path": ["info"]
+            },
+            "description": "Información general de la aplicación"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🏴‍☠️ Piratas",
+      "item": [
+        {
+          "name": "Crear Pirata",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Monkey D. Luffy\",\n  \"tripulacion\": \"Piratas de Sombrero de Paja\",\n  \"tieneFrutaDelDiablo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pirates",
+              "host": ["{{baseUrl}}"],
+              "path": ["pirates"]
+            },
+            "description": "Registra un nuevo pirata en la base de datos Marina"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Piratas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pirates",
+              "host": ["{{baseUrl}}"],
+              "path": ["pirates"]
+            },
+            "description": "Obtiene lista de todos los piratas"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Pirata",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pirates/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["pirates", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "507f1f77bcf86cd799439011"
+                }
+              ]
+            },
+            "description": "Obtiene información de un pirata específico. Reemplaza :id con MongoDB ObjectId real"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Pirata",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Monkey D. Luffy - Emperador de los Mares\",\n  \"tieneFrutaDelDiablo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pirates/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["pirates", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "507f1f77bcf86cd799439011"
+                }
+              ]
+            },
+            "description": "Actualiza parcialmente la información de un pirata"
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Pirata",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pirates/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["pirates", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "507f1f77bcf86cd799439011"
+                }
+              ]
+            },
+            "description": "Elimina un pirata y todas sus recompensas asociadas"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "💰 Recompensas",
+      "item": [
+        {
+          "name": "Crear Recompensa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pirata\": \"507f1f77bcf86cd799439011\",\n  \"cantidadBellys\": 3000000000,\n  \"estado\": \"Wanted\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bounties",
+              "host": ["{{baseUrl}}"],
+              "path": ["bounties"]
+            },
+            "description": "Emite una nueva orden de recompensa por un pirata. Reemplaza pirata ObjectId"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Recompensas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bounties",
+              "host": ["{{baseUrl}}"],
+              "path": ["bounties"]
+            },
+            "description": "Obtiene lista de todas las recompensas con datos del pirata (populate)"
+          },
+          "response": []
+        },
+        {
+          "name": "🎯 Recompensas Activas (SPECIAL)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bounties/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["bounties", "active"]
+            },
+            "description": "ENDPOINT ESPECIAL: Retorna recompensas activas (estado='Wanted') ordenadas por cantidadBellys DESC"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Recompensa",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bounties/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["bounties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "507f1f77bcf86cd799439012"
+                }
+              ]
+            },
+            "description": "Obtiene información detallada de una recompensa específica"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Recompensa",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cantidadBellys\": 5000000000,\n  \"estado\": \"Captured\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bounties/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["bounties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "507f1f77bcf86cd799439012"
+                }
+              ]
+            },
+            "description": "Actualiza parcialmente una recompensa (estado o cantidad)"
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Recompensa",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bounties/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["bounties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "507f1f77bcf86cd799439012"
+                }
+              ]
+            },
+            "description": "Elimina una recompensa del sistema"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
